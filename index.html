@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextScan · AI vs Human Classifier</title>
+
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">AI vs Human text classifier with dark and light theme switching</h2>
+
+<div class="app dark" id="app">
+<div class="wrap" id="wrap">
+<div class="scanlines"></div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span>TextScan · v2.0</span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    <div class="toggle-thumb" id="toggleThumb">
+      <i class="ti ti-moon" id="themeIcon" style="font-size:11px;color:white;"></i>
+    </div>
+  </button>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="badge">
+    <div class="logo-dot"></div>
+    Logistic Regression · TF-IDF · 200 features
+  </div>
+  <h1>Detect <span class="acc-teal" id="word1">human</span><br>vs <span class="acc-purple" id="word2">machine</span><span class="cursor"></span></h1>
+  <p class="subtitle">Paste any text — our model analyzes linguistic patterns to classify authorship origin in milliseconds.</p>
+</div>
+
+<!-- Input card -->
+<div class="card" id="mainCard">
+  <div class="lbl-row">
+    <span class="field-lbl">Input text</span>
+    <span class="char-cnt" id="charCount">0 chars · 0 words</span>
+  </div>
+  <textarea
+    id="textInput"
+    placeholder="Paste or type your text here… Try a social media post, an essay, a research paper, or anything you're curious about."
+    rows="7"
+  ></textarea>
+  <div class="examples-row">
+    <span class="ex-lbl">Try:</span>
+    <button class="ex-btn" onclick="loadEx('ai')">AI essay</button>
+    <button class="ex-btn" onclick="loadEx('human')">Human chat</button>
+    <button class="ex-btn" onclick="loadEx('academic')">Academic paper</button>
+    <button class="ex-btn" onclick="clearText()">Clear</button>
+  </div>
+  <p class="err" id="errMsg">Please enter at least 20 characters.</p>
+  <button class="analyze-btn" id="analyzeBtn" onclick="analyze(event)">
+    <div class="spin" id="spinner"></div>
+    <span id="btnTxt">
+      <i class="ti ti-scan" aria-hidden="true" style="font-size:18px;"></i> Analyze text
+    </span>
+  </button>
+</div>
+
+<!-- Result card -->
+<div class="result-card" id="resultCard">
+  <div class="r-header" id="rHeader">
+    <div class="verdict-icon" id="vIcon"></div>
+    <div class="verdict-body">
+      <div class="v-label">Classification result</div>
+      <div class="v-main" id="vMain"></div>
+    </div>
+    <div class="conf-score-wrap">
+      <div class="conf-sub">Confidence</div>
+      <div class="conf-score" id="confScore"></div>
+    </div>
+  </div>
+  <div class="conf-wrap" id="confWrap">
+    <div class="bar-lbls"><span>Human</span><span>AI</span></div>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+  </div>
+  <div class="tokens-sec">
+    <div class="tokens-title">Signal tokens detected</div>
+    <div class="tokens-grid" id="tokGrid"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-num" id="statWords">—</div>
+      <div class="stat-lbl">Words</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="statTokens">—</div>
+      <div class="stat-lbl">Signals matched</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="statAvgLen">—</div>
+      <div class="stat-lbl">Avg word length</div>
+    </div>
+  </div>
+</div>
+
+<!-- History -->
+<div id="histWrap" style="display:none">
+  <div class="history-wrap">
+    <div class="hist-title">Recent analyses</div>
+    <div class="hist-list" id="histList"></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- Scripts (order matters: data → classifier → ui → app) -->
+<script src="js/data.js"></script>
+<script src="js/classifier.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
